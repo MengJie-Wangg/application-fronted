@@ -40,11 +40,17 @@
 
 <script setup lang="js">
 import { User, Lock } from '@element-plus/icons-vue'
-import { ref, getCurrentInstance } from 'vue'
+import { ref, getCurrentInstance, watch } from 'vue'
 import { getCodeImg, login } from '@/api/login';
 import {useUserStore} from '@/store/modules/user'
-import { useRouter } from 'vue-router';
+import { useRouter,useRoute } from 'vue-router';
 const router = useRouter();
+const route = useRoute();
+const redirect = ref(undefined);
+//路由跳转时获取redirect参数
+watch(route,newRoute =>{
+    redirect.value = newRoute.query && newRoute.query.redirect;
+},{immediate:true});
 //验证码图片地址
 const codeUrl = ref('');
 //登录表单
@@ -67,15 +73,14 @@ function getCode() {
 function handleLogin() {
     console.log(loginForm.value);
     proxy.$refs.loginRef.validate((valid) => {
-        if (!valid) {
-            console.log('error submit!!');
-            return false;
-        } else {
+        if (valid) {
             userStore.login(loginForm.value).then(res => {
-                console.log('1234567',res);
+                router.push(redirect.value || '/');
             }).catch(err => {
                 getCode();
             })
+        } else {
+            console.log('error submit!!');
         }
     })
 }

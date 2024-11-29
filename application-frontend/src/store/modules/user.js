@@ -1,11 +1,14 @@
 import { defineStore } from "pinia";
-import { login } from "@/api/login";
+import { login, getInfo } from "@/api/login";
+import { getToken, setToken } from "@/utils/token";
 export const useUserStore = defineStore(
     'user',
     {
-        state: () => {
-            token: ''
-        },
+        state: () => ({
+            token: getToken(),
+            roles: [],
+            permissions: []
+        }),
         actions: {
             login(userInfo) {
                 //登录请求
@@ -19,6 +22,22 @@ export const useUserStore = defineStore(
                     login(data).then(res => {
                         resolve(res);
                         this.token = res.token;
+                        setToken(res.token);
+                    }).catch(err => {
+                        reject(err);
+                    })
+                })
+            },
+            getInfo() {
+                return new Promise((resolve, reject) => {
+                    getInfo().then(res => {
+                        resolve(res);
+                        if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+                            this.roles = res.roles;
+                            this.permissions = res.permissions;
+                        } else {
+                            this.roles = ['ROLE_DEFAULT'];
+                        }
                     }).catch(err => {
                         reject(err);
                     })
