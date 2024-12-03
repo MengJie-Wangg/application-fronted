@@ -1,10 +1,11 @@
 <template>
     <div>
-        AppMain
-        <RouterView/>
+        navbar
     </div>
 </template>
 
 <script setup>
-
 </script>
+
+
+<style></style>

@@ -1,0 +1,20 @@
+@use './variables.scss' as vars;
+
+#app {
+    .main-container {
+        margin-left: 200px;
+        min-height: 100%;
+    }
+
+    .sidebar-container {
+        width: 200px;
+        background: vars.$base-menu-background;
+        height: 100%;
+        position: fixed;
+
+        .el-menu {
+            border: none;
+        }
+    }
+
+}

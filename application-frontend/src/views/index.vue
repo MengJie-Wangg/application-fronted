@@ -1,10 +1,10 @@
 <template>
     <div>
-        AppMain
-        <RouterView/>
+        home
     </div>
 </template>
 
 <script setup>
-
 </script>
+
+<style scoped lang="scss"></style>

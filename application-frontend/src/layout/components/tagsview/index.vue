@@ -1,10 +1,11 @@
 <template>
     <div>
-        AppMain
-        <RouterView/>
+        tagsviews
     </div>
 </template>
 
 <script setup>
-
 </script>
+
+
+<style></style>
